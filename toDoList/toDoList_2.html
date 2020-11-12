@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>toDoList</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<div class="container">
+<h1>To Do List</h1>
+<ul class="mainblkCtrl">
+	<li class="box droppable" id="pendingBox">
+		<h2>Pending</h2>
+<!-- 		<div class="blockComp">
+			<ul>
+				<li class="compTitle">Title</li>
+				<li class="compDate"><i>Date</i></li>
+				<li class="compDesp">Description</li>
+			</ul>
+		</div>
+ -->
+	</li>
+	<li class="box containment droppable" id="progressBox">
+		<h2>In Progress</h2>
+		</li>
+	<li class="box containment droppable" id="completedBox"> 
+		<h2>Completed</h2>
+	</li>
+<!-- 	<li class="box droppable">
+		<h2>Hold</h2>
+	</li>
+ -->	<li class="box">
+		<h2>Add a task</h2>
+		<input type="text" id="toDoTitle" placeholder="Title">
+		<textarea id="toDoDesp" placeholder="Description"></textarea>
+		<input type="text" id="datepicker" placeholder="Due date (dd/mm/yy)">
+		<button class="btns"  id="addInList">Add Task</button>
+		<button class="btns" id="clearData">Clear Data</button>
+
+  		<div id="hidden">Drop to delete</div>
+
+	</li>
+</ul>
+
+</div>
+<script>
+  $( function() {
+
+	var pendingArr=[];
+	var inProgressArr=[];
+	var completedArr=[];
+	var draggableParId="";
+
+	function iteration(iteratedArr,targetId){
+	var tempObj={}
+		$.each(iteratedArr,function(index, value){
+	        		if(value.id==targetId){
+	        		tempObj.index=index;
+	        		tempObj.value=value;
+	        		
+	        		}
+	        	})
+		return tempObj;	
+	}
+
+
+    $( "#datepicker" ).datepicker();
+
+    function dragnDrop(){
+      $( ".draggable" ).draggable({
+
+     start: function(event,ui) {
+		        draggableParId=$(this).parent().attr("id");
+
+		        console.log(draggableParId);
+		      },
+      drag: function(event,ui) {
+		         $("#hidden").show();
+		      },
+	  //containment: ".containment"  	      
+
+    
+
+    	});
+	    $( ".droppable" ).droppable({
+		 
+	      drop: function( event, ui ) {
+	        //console.log($(this));
+	        //$(this).append(ui.draggable.css({position: 'static'}));
+	        //$(this).append(ui.draggable).css({position:'relative});
+
+	        $(this).append(ui.draggable.removeAttr('style'));
+
+	        //console.log(event);
+	        //console.log(ui);
+	        $("#hidden").hide();
+
+	        console.log(event.target.id);
+
+
+// Progress bar controller
+	        if(event.target.id=='progressBox'){
+	        	var testing=ui.draggable;
+
+	        	if(draggableParId=="pendingBox"){
+	        		// (iteration(instanceArr,$(testing).attr('id'));
+	        			inProgressArr.push((iteration(instanceArr,$(testing).attr('id'))).value);
+	        			instanceArr.splice((iteration(instanceArr,$(testing).attr('id'))).index,1);
+	        			// pendingArr.splice(iteration(instanceArr,$(testing).attr('id').index,1);
+	        	}
+
+	        	if(draggableParId=="completedBox"){
+	        		// (iteration(instanceArr,$(testing).attr('id'));
+	        			inProgressArr.push((iteration(completedArr,$(testing).attr('id'))).value);
+	        			completedArr.splice((iteration(completedArr,$(testing).attr('id'))).index,1);
+	        	}
+
+	        	console.log(instanceArr);
+	        	console.log(completedArr);
+	        	console.log(inProgressArr);
+
+	        }
+
+// Completed bar controller
+	        if(event.target.id=='completedBox'){
+	        	var testing=ui.draggable;
+
+	        	if(draggableParId=="pendingBox"){
+	        		// (iteration(instanceArr,$(testing).attr('id'));
+	        			completedArr.push((iteration(instanceArr,$(testing).attr('id'))).value);
+	        			instanceArr.splice((iteration(instanceArr,$(testing).attr('id'))).index,1);
+	        			// pendingArr.splice((iteration(instanceArr,$(testing).attr('id'))).index,1);
+	        	}
+
+	        	if(draggableParId=="progressBox"){
+	        		// (iteration(instanceArr,$(testing).attr('id'));
+	        			completedArr.push((iteration(inProgressArr,$(testing).attr('id'))).value);
+	        			inProgressArr.splice((iteration(inProgressArr,$(testing).attr('id'))).index,1);
+	        	}
+
+	        	console.log(instanceArr);
+	        	console.log(completedArr);
+	        	console.log(inProgressArr);
+
+			}
+
+// PendingBox bar controller
+	        if(event.target.id=='pendingBox'){
+	        	var testing=ui.draggable;
+
+	        	if(draggableParId=="completedBox"){
+	        		// (iteration(instanceArr,$(testing).attr('id'));
+	        			instanceArr.push((iteration(completedArr,$(testing).attr('id'))).value);
+	        			completedArr.splice((iteration(completedArr,$(testing).attr('id'))).index,1);
+	        			// pendingArr.splice((iteration(instanceArr,$(testing).attr('id'))).index,1);
+	        	}
+
+	        	if(draggableParId=="progressBox"){
+	        		// (iteration(instanceArr,$(testing).attr('id'));
+	        			instanceArr.push((iteration(inProgressArr,$(testing).attr('id'))).value);
+	        			inProgressArr.splice((iteration(inProgressArr,$(testing).attr('id'))).index,1);
+	        	}
+
+	        	console.log(instanceArr);
+	        	console.log(completedArr);
+	        	console.log(inProgressArr);
+
+			}
+	      }
+	    });
+	}
+
+// Main function to generate the component
+    var addTask=function(obj){
+    	// if(obj.compTitle==""){
+    	// console.log(obj);
+
+    	// creating dynamic div element
+		var div=document.createElement("DIV");
+		div.setAttribute("class","blockComp draggable");
+		div.setAttribute("id",obj.id);
+// Creating dynamic ul
+		var underList=document.createElement("ul");
+		div.appendChild(underList);
+// Creating dynami li. Here, array is used as different classes are used for each of the list
+		var classNames=["compTitle","compDate","compDesp"];
+
+		var randomId=["clt"+Math.random()*100 , "cldate"+Math.random()*100 , "cddesc"+Math.random()*100 ];
+//looping to generate each of the list
+		for(var i=0;i<3;i++)
+		{
+			var li=document.createElement("li");
+			li.setAttribute("class",classNames[i]);
+			li.setAttribute("id",randomId[i]);		
+// Append li to ul
+			underList.appendChild(li);
+		}
+		//console.log(obj);
+
+		var pDB=document.getElementById("pendingBox");
+		pDB.appendChild(div);
+
+		// invoke the function as it should called post element is generated........enabling draggable element
+		dragnDrop();
+
+
+		document.getElementById(randomId[0]).innerHTML = obj.title;
+		document.getElementById(randomId[1]).innerHTML = obj.date;
+		document.getElementById(randomId[2]).innerHTML = obj.description;
+
+		// document.getElementsByClassName("compTitle")[0].innerHTML = obj.titleC;
+
+    // }
+}
+    // addTask function ends here
+    // addTask();
+
+	// constructor
+	function constFunc(id,title,date,description){
+		this.title=title;
+		this.date=date;
+		this.description=description;
+		this.id=id;
+	}
+
+// emtpy array to store obj instance to avoid overwrite
+	var instanceArr=[];
+
+
+
+document.getElementById("addInList").addEventListener("click",function(){
+
+// Creating instance array of every object
+if(document.getElementById('toDoTitle').value!=""&&document.getElementById('toDoDesp').value!=""&&document.getElementById('datepicker').value!="")
+{
+instanceArr.push(new constFunc(Math.random()*100,document.getElementById("toDoTitle").value, document.getElementById("datepicker").value, document.getElementById("toDoDesp").value));
+// creating instance for the constructor
+addTask(instanceArr[instanceArr.length-1]);
+}
+else{
+	alert("Please provide inputs");
+};
+})
+  });
+
+
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+
+

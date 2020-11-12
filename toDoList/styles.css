@@ -1,0 +1,26 @@
+		body{background-color: #304A8D; font-family: monospace;}
+		h1{text-align: center; color: white;}
+		h2{text-align: center; color: black;}
+		.container{margin: 0 auto;}
+		.mainblkCtrl li{list-style-type: none; display: inline-table; margin-right: 10px; margin-top: 15px;}
+		.box{width: 250px; height: 300px; background-color: #e3e3e3; border-radius: 15px; padding: 10px;}
+		#datepicker,#toDoTitle,#toDoDesp{width: 90%; margin:5px; height: 20px; font-size: 14px;}
+		#toDoDesp{height: 100px;overflow: scroll;}
+		.btns{background-color: #1038AD; font-size: 13px; color: white; float: right; margin-right: 14px; padding: 5px 10px; border-radius: 8px; width: 100px;}
+		#clearData{clear: right; margin-top: 4px;}
+		.blockComp{width: 90%;margin: 5px 2px; background-color: white; font-size: 15px; font-weight: bold; border-radius: 8px;}
+		.blockComp li{display: block; padding: 5px 0px; line-height: 12px;}
+		.compDate,.compDesp{font-weight: normal;}
+  	    #hidden{
+
+  	    	width:98%;
+  	    	border:2px dashed red;
+  	    	clear:both;
+            background-color: grey;
+  	    	height:50px;
+  	    	padding:2px;
+  	    	margin:2px;
+  	    	font-size: 12px;
+  	    	display:none;
+  	    }
+

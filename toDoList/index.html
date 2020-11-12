@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>toDoList App</title>
+</head>
+<body ng-app="toDoListApp" ng-controller="toDoCtrl">
+<h2>To Do Lists with their targeted dates</h2>
+
+<form ng-submit="toDoAdd()">
+	<input type="text" ng-model="toDoInput" size="30" placeholder="Add New">
+	<input type="button" value="Add">
+</form>
+
+<br>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+</body>
+</html>
